@@ -1,1 +1,20 @@
+EXTRA NOTES:
 
+
+TIM NOTES HERE:
+
+
+
+
+
+ADEN NOTES HERE:
+#Order status potential. Seen in multiple places?
+NG-VIEWS -> Views PRD_DATALAKEHOUSE.AVIATOR_ORDER.STATUS (datatype = VARCHAR(16777216))
+or
+NG-VIEWS -> Views -> AVIATOR_ORDER_EVENTS.STATUS (datatype = VARCHAR(16777216))
+
+NG-VIEWS -> PRD_DATALAKEHOUSE.AVIATOR_ORDER.ORDER_TYPE (datatype = VARCHAR(16777216)) # "driven_delivery" in cell indicates DO.
+#Store ID should just be ignored, allowing all stores? 
+#Is "envoy only" a column with value rather than an entire view?
+
+PRD_DATALAKEHOUSE.NG_VIEWS.CREATE_ORDER_HOLD indicates an "IS_ENVOY" columns with a bool. not sure where it returns from
