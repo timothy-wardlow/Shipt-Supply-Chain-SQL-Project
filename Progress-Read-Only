@@ -33,3 +33,11 @@ NG-VIEWS -> PRD_DATALAKEHOUSE.AVIATOR_ORDER.ORDER_TYPE (datatype = VARCHAR(16777
 #Is "envoy only" a column with value rather than an entire view?
 
 PRD_DATALAKEHOUSE.NG_VIEWS.CREATE_ORDER_HOLD indicates an "IS_ENVOY" columns with a bool. not sure where it returns from
+
+
+Home depot: 
+PRD_DATALAKEHOUSE.NG_VIEWS.HOME_DEPOT
+column DELIVERYLOCATION_ADDRESS_1 = customer address
+column PICKUPLOCATION_ADDRESS_1 = store address
+
+OPS_ANALYTICS database?
