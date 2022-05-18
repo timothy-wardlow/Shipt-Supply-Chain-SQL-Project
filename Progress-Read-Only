@@ -2,10 +2,25 @@ EXTRA NOTES:
 
 
 TIM NOTES HERE:
+NG_VIEWS.DELIVERY_BROKER query (did not work how we wanted it to but could be useful for general query structure/making connections down the line):
 
+SELECT 
+'https://admin.shipt.com/deliveries/' || EXTERNAL_REFERENCE_ID as "Order Admin",
+DROPOFF_CUSTOMER_FIRST_NAME || ' ' || DROPOFF_CUSTOMER_LAST_NAME  as "Customer Name",
+DROPOFF_ADDRESS || DROPOFF_ADDRESS_2 || DROPOFF_ADDRESS_CITY || DROPOFF_ADDRESS_STATE || DROPOFF_ADDRESS_ZIP_CODE as "Delivery Address",
+DELIVER_BY as "Delivery Date"
 
+FROM 
+NG_VIEWS.DELIVERY_BROKER
 
+WHERE 
+DROPOFF_ADDRESS ilike '%11276 Stonemill Farms%'
 
+ORDER BY "Delivery Date" desc
+
+LIMIT 100
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ADEN NOTES HERE:
 #Order status potential. Seen in multiple places?
