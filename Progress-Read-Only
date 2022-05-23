@@ -2,6 +2,24 @@ EXTRA NOTES:
 
 
 TIM NOTES HERE:
+(05/23/2022)
+Testing a new envoy delivery address search query. Performance so far has been much better! Average query run time is between 15-25 seconds and it has returned the same results as the current envoy search query (only much quicker):
+
+select 'https://admin.shipt.com/deliveries/' || ed.id as "Order Admin"
+     , ed.status
+     , ts.starts_at :: DATE as "Date"
+     , db.DROPOFF_CUSTOMER_FIRST_NAME || ' ' || db.DROPOFF_CUSTOMER_LAST_NAME as "Customer Name"
+     , db.DROPOFF_ADDRESS || ' ' || db.DROPOFF_ADDRESS_2 || ' ' || db.DROPOFF_ADDRESS_CITY || ' ' || db.DROPOFF_ADDRESS_STATE || ' ' || db.DROPOFF_ADDRESS_ZIP_CODE as "Delivery Address"
+     , db.external_reference_id
+from ng_views.DELIVERY_BROKER db
+join og_views.envoy_deliveries ed on db.EXTERNAL_REFERENCE_ID = ed.external_reference_id
+join og_views.time_slots ts ON ed.time_slot_id = ts.id
+where "Delivery Address" ilike '%ADDRESS HERE%'
+order by "Date" desc
+;
+
+
+(05/17/2022)
 NG_VIEWS.DELIVERY_BROKER query (did not work how we wanted it to but could be useful for general query structure/making connections down the line):
 
 SELECT 
