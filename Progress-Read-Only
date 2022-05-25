@@ -2,6 +2,8 @@ EXTRA NOTES:
 https://admin.shipt.com/deliveries/119697636
 6817 Milton Street. No results shown, yet admin exists.
 
+Incorporate table og_view.envoy_deliveries dropoff_location_id to solve above^? Will need table key to access. 5/25
+
 TIM NOTES HERE:
 (05/23/2022)
 Testing a new envoy delivery address search query. Performance so far has been much better! Average query run time is between 15-25 seconds and it has returned the same results as the current envoy search query (only much quicker):
