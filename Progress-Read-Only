@@ -1,8 +1,11 @@
 EXTRA NOTES:
 https://admin.shipt.com/deliveries/119697636
-6817 Milton Street. No results shown, yet admin exists.
+6817 Milton Street. No results shown, yet admin exists. --fixed, CVS orders have protected addresses.
 
-Incorporate table og_view.envoy_deliveries dropoff_location_id to solve above^? Will need table key to access. 5/25
+Incorporate table og_view.envoy_deliveries dropoff_location_id to solve above^? Will need table key to access. 5/25 --Solved.
+
+To-Do:
+Check Home Depot searchability
 
 TIM NOTES HERE:
 (05/23/2022)
@@ -44,16 +47,40 @@ LIMIT 100
 --------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ADEN NOTES HERE:
-#Order status potential. Seen in multiple places?
-NG-VIEWS -> Views PRD_DATALAKEHOUSE.AVIATOR_ORDER.STATUS (datatype = VARCHAR(16777216))
-or
-NG-VIEWS -> Views -> AVIATOR_ORDER_EVENTS.STATUS (datatype = VARCHAR(16777216))
+Query for CVS
 
-NG-VIEWS -> PRD_DATALAKEHOUSE.AVIATOR_ORDER.ORDER_TYPE (datatype = VARCHAR(16777216)) # "driven_delivery" in cell indicates DO.
-#Store ID should just be ignored, allowing all stores? 
-#Is "envoy only" a column with value rather than an entire view?
+--!!!! PLEASE READ !!!!
+--THIS QUERY SPECIFICALLY FOR CVS DELIVERIES
+--Return time is roughly 5-6 minutes.
 
-PRD_DATALAKEHOUSE.NG_VIEWS.CREATE_ORDER_HOLD indicates an "IS_ENVOY" columns with a bool. not sure where it returns from
+select CONCAT ('https://admin.shipt.com/admin/deliveries/', ed.id) as Admin
+     , ed.external_reference_id
+     , ed.status
+     , ed.dropoff_first_name
+     , ed.dropoff_last_name
+     , el.address
+     , ed.dropoff_phone_number
+     , ed.pickup_location_id
+     , ed.created_at
+     
+   
+from og_views.envoy_deliveries as ed
+join og_views.envoy_locations el on el.id = ed.dropoff_location_id -----To search address by store location, ed.dropoff_location_id becomes ed.pickup_location_id. Change back to ed.dropoff_location_id for customers.
+
+
+--SEARCH OPTIONS 
+--ENTER BETWEEN () IN '.*().*'  LESS INFO == MORE RESULTS
+--REMOVE DASHES -- FROM BEGINNING OF LINE TO SEARCH THAT INFO
+
+where 
+    rlike(el.address, '^.*7830 SW 89th.*', 'sim') --CUSTOMER ADDRESS, 
+
+    --ed.dropoff_phone_number like '%16467965071%' --CUSTOMER PHONE NUMBER, 
+
+    --ed.external_reference_id like '%429885350%' --EXTERNAL ID, For party city if number like 20220519.1109..., this is the date and store number and will return orders from that store placed on that date.
+    
+order by ed.created_at desc;
+
 
 
 Home depot: 
@@ -61,4 +88,4 @@ PRD_DATALAKEHOUSE.NG_VIEWS.HOME_DEPOT
 column DELIVERYLOCATION_ADDRESS_1 = customer address
 column PICKUPLOCATION_ADDRESS_1 = store address
 
-OPS_ANALYTICS database?
+
