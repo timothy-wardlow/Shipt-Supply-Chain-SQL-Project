@@ -6,6 +6,8 @@ Incorporate table og_view.envoy_deliveries dropoff_location_id to solve above^? 
 
 To-Do:
 Check Home Depot searchability
+IMPORTANT: https://admin.shipt.com/deliveries/10707587 this shoprite order only appears in the CVS query. But other shoprite orders that are similar to the address
+do appear when searching with the other query. Is there potentially another customer address table?
 
 TIM NOTES HERE:
 (05/23/2022)
