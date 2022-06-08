@@ -1,3 +1,47 @@
+PHASE ONE UPDATE (06/06/2022): 
+
+--!!!! PLEASE READ !!!!
+--Return time FOR ADDRESSES is roughly 5-6 minutes.
+--Phone number/order number take less than 1 minute.
+--Searches begin on line 25
+
+select CONCAT ('https://admin.shipt.com/admin/deliveries/', ed.id) as "Admin Link"
+     , ed.dropoff_first_name || ' ' || ed.dropoff_last_name as "Customer Name"
+     , ts.starts_at :: DATE as "Date"
+     , el.address as "Address"
+     , ed.dropoff_phone_number as "Phone"
+     , ed.status as "Status"
+     , ed.external_reference_id as "External Order Number"
+     , ed.pickup_location_id
+     
+from og_views.envoy_deliveries as ed
+join og_views.envoy_locations el on el.id = ed.dropoff_location_id -----To search address by store location, ed.dropoff_location_id becomes ed.pickup_location_id. Change back to ed.dropoff_location_id for customers.
+join og_views.time_slots ts on ed.time_slot_id = ts.id
+
+--SEARCH OPTIONS 
+--LESS INFO == MORE RESULTS
+--REMOVE DASHES -- FROM BEGINNING OF LINE TO SEARCH THAT INFO
+--ADD DASHES TO BEGINNING OF LINE NOT USED. 
+
+where 
+    --rlike(el.address, '^.*121 Birch.*', 'sim') --CUSTOMER ADDRESS, enter between .* (here) .* ... If accidentally edited, line is:  rlike(el.address, '^.*121 Birch.*', 'sim')
+    
+    ed.dropoff_phone_number like '%813%401%1175%' --CUSTOMER PHONE NUMBER, ENTER EACH PORTION OF NUMBER BETWEEN THE %, i.e. '%205%502%2500%'
+
+    --ed.external_reference_id like '%126582879%' --EXTERNAL ID, 
+    --For party city if order number like 20220519.1109..., this = dateoforder.storenumber and will return orders from that store placed on that date at that store (try this for PC searches if you know the date order was entered + store number)
+    
+order by "Date" desc;
+
+
+
+
+PHASE TWO:
+
+Create a webhook that connects #envoy-order-failure-reports and returns alongside query results with a "Failed" delivery status.
+
+
+
 EXTRA NOTES:
 https://admin.shipt.com/deliveries/119697636
 6817 Milton Street. No results shown, yet admin exists. --fixed, CVS orders have protected addresses.
