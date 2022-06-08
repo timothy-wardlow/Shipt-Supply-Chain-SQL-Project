@@ -1,4 +1,9 @@
 # Shipt-Supply-Chain-SQL-Project
+
+
+
+## PHASE ONE
+
  Primary Goals:
  Develop SQL queries to be used with Snowflake databases that are:
  a) compatible with NG Admin views
